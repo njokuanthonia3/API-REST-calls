@@ -28,17 +28,24 @@ payload = json.dumps( {
   "type": "page",
   "space": {
     "id": "14438105090",
-    "name": "Anthonia Oluchukwu Njoku",
+    "name": "Anthonia Oluchukwu Njoku"
     },
-  
-   
-})    
+    "body": {
+    "storage": {
+      "value": reading,
+      "representation": "storage"
+    }
+    }
+} )    
 
 response = requests.request(
+
    "POST",
    url,
+   auth=auth,
    data=payload,
    headers=headers
 )
 
-print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": ")))
+print(response.text)
+#print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": ")))
