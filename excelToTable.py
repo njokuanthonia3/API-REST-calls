@@ -12,7 +12,7 @@ password = os.environ.get("APIkey")
 address = os.environ.get("email")
 
 
-url = "https://taiwoojo.atlassian.net/wiki/rest/api/content"
+url = os.environ.get("url_for_confluence")
 auth = HTTPBasicAuth(address, password)
 reading = pd.read_excel(r"/Users/mac/Library/Containers/com.microsoft.Excel/Data/Downloads/DATA.xlsx")
 reading = reading.to_html(index=False)
