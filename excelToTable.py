@@ -15,7 +15,7 @@ address = os.environ.get("email")
 url = "https://taiwoojo.atlassian.net/wiki/rest/api/content"
 auth = HTTPBasicAuth(address, password)
 reading = pd.read_excel(r"/Users/mac/Library/Containers/com.microsoft.Excel/Data/Downloads/DATA.xlsx")
-reading = reading.to_html('records')
+reading = reading.to_html(index=False)
 
 headers = {
    "Accept": "application/json",
@@ -24,7 +24,7 @@ headers = {
 }
 
 payload = json.dumps( {
-  "title": "Excel to Table",
+  "title": "Excel to Table4",
   "type": "page",
   "space": {
     "id": "14438105090",
@@ -47,5 +47,10 @@ response = requests.request(
    headers=headers
 )
 
-print(response.text)
-#print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": ")))
+#print(response.text)
+print(response.status_code)
+print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": ")))
+
+with open('response.txt', 'w') as rules:
+  rules.write(response.text)
+
