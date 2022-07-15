@@ -11,42 +11,47 @@ password = os.environ.get("APIkey")
 address = os.environ.get("email")
 url = os.environ.get("url")
 
-auth = HTTPBasicAuth(address, password)
-
-headers = {
-   "Accept": "application/json"
-}
+new_file = open('newFiles.txt', 'a+')
 
 query = {
-   'jql': 'project = AUP',
-   'startAt':0,
-   'maxResults':50,
-   'fields': 'attachment'
-
+      'jql': 'project = AUP',
+      'startAt':0,
+      'maxResults': 50,
+      'fields': 'attachment'
 }
-
-response = requests.request(
-   "GET",
-   url,
-   headers=headers,
-   params=query,
-   auth=auth
-)
-
-result = json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": "))
-#print(result)
-
-new_file = open('newFile.txt', 'w')
-new_file.write(result)
-
-
 count = 0
-result = json.loads(response.text)
-for a in result['issues']:
-   if a['fields']['attachment'] != []:
-      count += 1
-   
-print(count)
+report = {'startAt': 0, 'total': 1}
 
+while query['startAt'] <  report['total']:
+
+   auth = HTTPBasicAuth(address, password)
+
+   headers = {
+      "Accept": "application/json"
+   }
+
+   response = requests.request(
+      "GET",
+      url,
+      headers=headers,
+      params=query,
+      auth=auth
+   )
+
+   result = json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": "))
+   new_file.write(result)
+
+   report = json.loads(response.text)
+
+   for a in report['issues']:
+      if a['fields']['attachment'] != []:
+         count += 1
+   
+   query['startAt'] += 50
+
+   
+
+print(count)
+   
 
 
